@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="spellSword">
+<head>
+    <title>Spell Sword</title>
+    <script src="app/angular.min.js"></script>
+</head>
+<body ng-controller="homeCtrl">
+    <div>
+      <button ng-click="introButtons('intro')">Start Over!</button>
+      <button ng-click="introButtons('gameStart')">Game On!</button>
+    </div>
+    <div class="intro" ng-if="gameIntro">
+        <h2>NOT Spell Sword!</h2>
+    </div>
+
+    <div class="gameStart" ng-if="gameStart" spell-sword-game>
+      <h2>Start</h2>
+    
+    </div>
+    <script src="app/spellsword.js"></script>
+    <script src="app/gamestate.js"></script>
+    <script src="app/global-settings.js"></script>
+    <script src="app/sprite.js"></script>
+</body>
+</html>
