@@ -13,10 +13,14 @@
         <h2>NOT Spell Sword!</h2>
     </div>
 
-    <div class="gameStart" ng-if="gameStart" spell-sword-game>
-      <h2>Start</h2>
-    
-    </div>
+    <div class="gameStart" ng-if="gameStart" spell-sword-game></div>
+                <button onclick="moveup()">UP</button>
+            <button onclick="movedown()">DOWN</button>
+            <button onclick="moveleft()">LEFT</button>
+            <button onclick="moveright()">RIGHT</button>
+            <button onclick="stopmove()">STOP</button>
+            <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.1)">ACCELERATE</button>
+
     <script src="app/spellsword.js"></script>
     <script src="app/gamestate.js"></script>
     <script src="app/global-settings.js"></script>

@@ -1,15 +1,17 @@
-var firstGamePiece, secondGamePiece, thirdGamePiece, firstObstacle, ctx;
+var firstGamePiece, secondGamePiece, thirdGamePiece, fourthGamePiece, firstObstacle, ctx;
 var allObstacles = [];
 
 // this is our exec code
 // first game piece moves hard coded
-// second game piece has onclick speed and direction control
-// third game piece is keyboard controlled
+// second game piece has onclick speed 
+// third game piece is keyboard controlled 
+// fourth game piece has acceleration button control and can't touch obstacle
 function startGame() {
   firstGamePiece = new component(30, 30, "rgba(0, 0, 255, 0.5)", 10, 120);
   secondGamePiece = new component(30, 30, "brown", 10, 120);
   thirdGamePiece = new component(20, 20, "black", 30, 120);
   firstObstacle = new component(10, 200, "red", 300, 120);
+  fourthGamePiece = new component(30, 30, "purple", 40, 100);
   myGameArea.start();
 }
 
@@ -53,6 +55,7 @@ var myGameArea = {
 // update is a function to be called when drawing
 // added X & Y speed attributes to properties
 // newPos updates those properties
+// make some components with gravity and some without
 function component(width, height, color, x, y) {
   this.width = width;
   this.height = height;
@@ -68,11 +71,20 @@ function component(width, height, color, x, y) {
     ctx.fillStyle = color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
   };
+  // newPos has speed, gravity control. also defines bottom
   this.newPos = function() {
     this.x += this.speedX;
-    this.y += this.speedY;
+    this.y += this.speedY + this.gravitySpeed;
     // to increment or decrement gravity
     this.gravitySpeed += this.gravity;
+    this.hitBottom();
+  };
+  // this is the bottom
+  this.hitBottom = function() {
+    var rockbottom = myGameArea.canvas.height - this.height;
+    if (this.y > rockbottom) {
+      this.y = rockbottom;
+    }
   };
   // this next function reads the position of object sides
   // map out all combinations of collistion
@@ -102,7 +114,7 @@ function updateGameArea() {
   // following for and if loops are looping through every obstacle to find crash
   var i, x, y;
   for (i = 0; i < allObstacles.length; i += 1) {
-    if (thirdGamePiece.crashWith(allObstacles[i])) {
+    if (fourthGamePiece.crashWith(allObstacles[i])) {
       myGameArea.stop();
       return;
     }
@@ -137,6 +149,9 @@ function updateGameArea() {
   thirdGamePiece.newPos();
   thirdGamePiece.update();
   // move the obstacle if you need to just like other components using x and y
+  fourthGamePiece.newPos();
+  fourthGamePiece.update();
+
   firstObstacle.update();
 }
 
@@ -168,6 +183,10 @@ function stopmove() {
 function everyinterval(n) {
   if ((myGameArea.frameNo / n) % 1 === 0) {return true;}
   return false;
+}
+
+function accelerate(n) {
+    fourthGamePiece.gravity = n;
 }
 
 // WATCH YOUR SPELLING!
